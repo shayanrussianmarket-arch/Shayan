@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Pharmacy Management</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+
+<style>
+body{
+    background:#f4f6f9;
+}
+.sidebar{
+    height:100vh;
+    background:#0d6efd;
+    color:white;
+    padding:20px;
+}
+.sidebar h4{
+    margin-bottom:30px;
+}
+.sidebar a{
+    display:block;
+    color:white;
+    text-decoration:none;
+    margin:15px 0;
+}
+.card{
+    border-radius:15px;
+}
+.btn-add{
+    border-radius:50%;
+    width:50px;
+    height:50px;
+    font-size:22px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container-fluid">
+<div class="row">
+
+<!-- Sidebar -->
+<div class="col-md-2 sidebar">
+<h4>💊 Medicare</h4>
+<a href="#">Home</a>
+<a href="#">Medicines</a>
+<a href="#">Bill List</a>
+<a href="#">Settings</a>
+</div>
+
+<!-- Main Content -->
+<div class="col-md-10 p-4">
+<h3 class="mb-4">Pharmacy Page</h3>
+
+<div class="card p-4 shadow">
+<table class="table table-bordered">
+<thead class="table-primary">
+<tr>
+<th>Name</th>
+<th>Price</th>
+<th>Quantity</th>
+<th>Discount</th>
+<th>Subtotal</th>
+</tr>
+</thead>
+<tbody id="billTable"></tbody>
+</table>
+
+<button class="btn btn-success btn-add" onclick="addRow()">+</button>
+
+<hr>
+
+<h5>Total: <span id="total">0</span></h5>
+
+</div>
+</div>
+
+</div>
+</div>
+
+<script>
+
+function addRow(){
+let table = document.getElementById("billTable");
+
+let row = `
+<tr>
+<td><input type="text" class="form-control"></td>
+<td><input type="number" class="form-control price" oninput="calculate()"></td>
+<td><input type="number" class="form-control qty" oninput="calculate()"></td>
+<td><input type="number" class="form-control discount" oninput="calculate()"></td>
+<td class="subtotal">0</td>
+</tr>
+`;
+
+table.innerHTML += row;
+}
+
+function calculate(){
+let prices = document.querySelectorAll(".price");
+let qtys = document.querySelectorAll(".qty");
+let discounts = document.querySelectorAll(".discount");
+let subtotals = document.querySelectorAll(".subtotal");
+
+let total = 0;
+
+for(let i=0; i<prices.length; i++){
+
+let price = prices[i].value || 0;
+let qty = qtys[i].value || 0;
+let discount = discounts[i].value || 0;
+
+let subtotal = (price * qty) - discount;
+subtotals[i].innerText = subtotal;
+
+total += subtotal;
+}
+
+document.getElementById("total").innerText = total;
+}
+
+</script>
+
+</body>
+</html>
